@@ -2,21 +2,18 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-//import { refs } from './pixabay-api';
 
-function handleFormSubmit(event) { //Функция для обработки события отправки формы
+function handleFormSubmit(event) {
     event.preventDefault();
     const apiKey = '42334631-07f239856d3b6a49db441bfb9';
     const searchPicture = document.getElementById("searchRequest").value.trim();
-
     if (searchPicture === "") {
         iziToast.warning({
             title: 'Warning',
             message: 'Please enter a search query.'
         });
-        return false; // Предотвращение отправки формы
+        return false;
     }
-    // Формирование параметров запроса для API Pixabay
     const params = new URLSearchParams({
         key: apiKey,
         q: searchPicture,
@@ -42,11 +39,19 @@ function handleFormSubmit(event) { //Функция для обработки с
                     message: 'Sorry, there are no images matching your search query. Please try again!'
                 });
             } else {
-                data.hits.forEach(image => {
-                    gallery.innerHTML += `<a href="${image.largeImageURL}"><img src="${image.previewURL}" alt="${image.tags}"></a>`;
-                });
+                const galleryMarkup = data.hits.map(image => {
+                    return `<a href="${image.largeImageURL}">
+<img src="${image.previewURL}" alt="${image.tags}">
+<div class="image-info">
+<span>Likes: ${image.likes}</span>
+<span>Views: ${image.views}</span>
+<span>Comments: ${image.comments}</span>
+<span>Downloads: ${image.downloads}</span>
+</div>
+                    </a>`;
+                }).join('');
+                gallery.innerHTML = galleryMarkup;
                 new SimpleLightbox('.gallery a');
-
             }
         })
         .catch(error => {
@@ -56,7 +61,8 @@ function handleFormSubmit(event) { //Функция для обработки с
                 message: 'Failed to fetch images. Please try again later.'
             });
         });
-    return false; // чтобы форма не отправлялась после отправки запроса
+    event.currentTarget.reset()
+    return false;
 }
 
 const form = document.getElementById('searchForm');
