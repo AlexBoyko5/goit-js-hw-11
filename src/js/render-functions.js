@@ -1,31 +1,22 @@
-
 export function addImagesToGallery(images) {
     const gallery = document.getElementById('gallery');
-    gallery.innerHTML = '';
+    gallery.innerHTML = ''; // Очищаем галерею перед добавлением новых изображений
+
     images.forEach(image => {
-        const card = document.createElement('div');
-        card.classList.add('list-item');
+        // Создаем HTML-разметку для каждого изображения и его информации
+        const imageMarkup = `
+            <div class="image-container">
+                <img src="${image.webformatURL}" alt="${image.tags}">
+                <div class="image-caption">
+                    <span>Likes: ${image.user_likes}</span>
+                    <span>Views: ${image.user_views}</span>
+                    <span>Comments: ${image.user_comments}</span>
+                    <span>Downloads: ${image.user_downloads}</span>
+                </div>
+            </div>
+        `;
 
-
-        const img = document.createElement('img');
-        img.classList.add('item-img');
-        img.src = image.webformatURL;
-        img.alt = image.tags;
-
-
-        const info = document.createElement('div');
-        info.classList.add('image-info');
-
-        info.innerHTML = `
-      <span>Likes: ${image.likes}</span>
-      <span>Views: ${image.views}</span>
-      <span>Comments: ${image.comments}</span>
-      <span>Downloads: ${image.downloads}</span>
-    `;
-
-        card.appendChild(img);
-        card.appendChild(info);
-
-        gallery.appendChild(card);
+        // Добавляем HTML-разметку в галерею с помощью innerHTML
+        gallery.innerHTML += imageMarkup;
     });
 }

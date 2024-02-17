@@ -2,9 +2,11 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+const loader = document.getElementById('loader');
 
 function handleFormSubmit(event) {
     event.preventDefault();
+    loader.style.display = 'block';
     const apiKey = '42334631-07f239856d3b6a49db441bfb9';
     const searchPicture = document.getElementById("searchRequest").value.trim();
     if (searchPicture === "") {
@@ -14,6 +16,7 @@ function handleFormSubmit(event) {
         });
         return false;
     }
+
     const params = new URLSearchParams({
         key: apiKey,
         q: searchPicture,
@@ -42,7 +45,7 @@ function handleFormSubmit(event) {
                 const galleryMarkup = data.hits.map(image => {
                     return `<a href="${image.largeImageURL}">
 <img src="${image.previewURL}" alt="${image.tags}">
-<div class="image-info">
+<div class="image-caption">
 <span>Likes: ${image.likes}</span>
 <span>Views: ${image.views}</span>
 <span>Comments: ${image.comments}</span>
@@ -53,13 +56,15 @@ function handleFormSubmit(event) {
                 gallery.innerHTML = galleryMarkup;
                 new SimpleLightbox('.gallery a');
             }
+            loader.style.display = 'none';
         })
         .catch(error => {
             console.error('Error fetching images:', error);
             iziToast.error({
                 title: 'Error',
-                message: 'Failed to fetch images. Please try again later.'
+                message: 'Failed to fetch images. Please try again later.',
             });
+            loader.style.display = 'none';
         });
     event.currentTarget.reset()
     return false;
