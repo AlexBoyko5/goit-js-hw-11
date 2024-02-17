@@ -2,11 +2,11 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-const loader = document.getElementById('loader');
+// const loader = document.getElementById('loader');
 
 function handleFormSubmit(event) {
     event.preventDefault();
-    loader.style.display = 'block';
+    // loader.style.display = 'block';
     const apiKey = '42334631-07f239856d3b6a49db441bfb9';
     const searchPicture = document.getElementById("searchRequest").value.trim();
     if (searchPicture === "") {
@@ -56,7 +56,7 @@ function handleFormSubmit(event) {
                 gallery.innerHTML = galleryMarkup;
                 new SimpleLightbox('.gallery a');
             }
-            loader.style.display = 'none';
+            // loader.style.display = 'none';
         })
         .catch(error => {
             console.error('Error fetching images:', error);
@@ -64,7 +64,7 @@ function handleFormSubmit(event) {
                 title: 'Error',
                 message: 'Failed to fetch images. Please try again later.',
             });
-            loader.style.display = 'none';
+            // loader.style.display = 'none';
         });
     event.currentTarget.reset()
     return false;
