@@ -1,74 +1,43 @@
+// Описаний у документації
 import iziToast from "izitoast";
+// Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
+// Описаний у документації
 import SimpleLightbox from "simplelightbox";
+// Додатковий імпорт стилів
 import "simplelightbox/dist/simple-lightbox.min.css";
-// const loader = document.getElementById('loader');
+import { createGalleryMarkup } from './render-functions.js';
 
-function handleFormSubmit(event) {
-    event.preventDefault();
-    // loader.style.display = 'block';
-    const apiKey = '42334631-07f239856d3b6a49db441bfb9';
-    const searchPicture = document.getElementById("searchRequest").value.trim();
-    if (searchPicture === "") {
-        iziToast.warning({
-            title: 'Warning',
-            message: 'Please enter a search query.'
-        });
-        return false;
-    }
+const API_KEY = '42334631-07f239856d3b6a49db441bfb9';
 
-    const params = new URLSearchParams({
-        key: apiKey,
-        q: searchPicture,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: true
-    });
-
-    fetch(`https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(searchPicture)}${params}`)
+export function fetchImages(query) {
+    const loader = document.querySelector('.loader');
+    loader.style.display = 'block';
+    fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&orientation=horizontal&safesearch=true`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch images');
             }
             return response.json();
         })
-
         .then(data => {
-            const gallery = document.getElementById('gallery');
-            gallery.innerHTML = '';
+            console.log(data);
+            loader.style.display = 'none';
             if (data.hits.length === 0) {
                 iziToast.info({
                     title: 'Info',
                     message: 'Sorry, there are no images matching your search query. Please try again!'
                 });
             } else {
-                const galleryMarkup = data.hits.map(image => {
-                    return `<a href="${image.largeImageURL}">
-<img src="${image.previewURL}" alt="${image.tags}">
-<div class="image-caption">
-<span>Likes: ${image.likes}</span>
-<span>Views: ${image.views}</span>
-<span>Comments: ${image.comments}</span>
-<span>Downloads: ${image.downloads}</span>
-</div>
-                    </a>`;
-                }).join('');
-                gallery.innerHTML = galleryMarkup;
-                new SimpleLightbox('.gallery a');
+                createGalleryMarkup(data.hits);
             }
-            // loader.style.display = 'none';
         })
         .catch(error => {
             console.error('Error fetching images:', error);
+            loader.style.display = 'none';
             iziToast.error({
                 title: 'Error',
-                message: 'Failed to fetch images. Please try again later.',
+                message: 'Failed to fetch images. Please try again later.'
             });
-            // loader.style.display = 'none';
         });
-    event.currentTarget.reset()
-    return false;
 }
-
-const form = document.getElementById('searchForm');
-form.addEventListener('submit', handleFormSubmit);

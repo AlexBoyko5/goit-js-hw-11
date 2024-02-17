@@ -1,10 +1,10 @@
-/**
+/* /**
   |============================
   | include css partials with
   | default @import url()
   |============================
 */
-@import url('./reset.css');
+/* @import url('./reset.css');
 
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -78,7 +78,6 @@ input:active {
 
 .gallery {
   display: grid;
-  /* Используем CSS Grid для создания решетки */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
   align-items: center;
@@ -86,20 +85,20 @@ input:active {
   padding-top: 15px;
 }
 
-.image-container {
+/* .image-container {
   box-shadow: 5px 5px #000000;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-}
+} */
 
-.image-container img {
+/* .image-container img {
   width: 100%;
   height: auto;
   object-fit: contain;
-}
+} */
 
-.image-caption {
+/* .image-caption {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -107,9 +106,9 @@ input:active {
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 10px;
-}
+} */
 
-.loader {
+/* .loader {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,4 +120,4 @@ input:active {
   background-color: rgba(255, 255, 255, 0.5);
   z-index: 9999;
   animation-delay: 250ms;
-}
+}  */

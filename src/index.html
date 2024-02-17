@@ -11,19 +11,17 @@
 
 <body>
   <h1>Search for images</h1>
-
-  <form id="searchForm"><label for="searchRequest">Enter data for the request</label>
-    <!-- Підпис поблизу поля введення -->
-    <input type="text" id="searchRequest" name="searchRequest" required>
-    <!-- Поле для введення тексту з обов'язковим заповненням -->
-    <button type="submit">Search</button> <!-- Кнопка для відправки форми -->
-  </form>
-  <div id="gallery" class="gallery"></div>
-  <!-- елемент для індикатора завантаження -->
-  <div class="loader" style="display: none;"></div>
+  <section>
+    <form id="search-form">
+      <input type="text" name="search" id="search-input" required placeholder="Search images...">
+      <button type="submit">Search</button>
+    </form>
+    <span class="loader is-hidden"></span>
+    <div class="gallery"> </div>
+  </section>
 
 
-  <script type="module" src="/main.js"></script>
+  <script src="./main.js" type="module"></script>
 </body>
 
 </html>
